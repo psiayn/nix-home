@@ -37,8 +37,10 @@
       hmsb = "home-manager switch -b backup";
       ehmc = "nvim ~/.config/nixpkgs/home.nix";
       # git aliases
+      g = "git config";
       gst = "git status";
       gc = "git commit";
+      ga = "git add";
       gp = "git push";
       gl = "git pull";
       glo = "git log";
