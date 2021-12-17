@@ -19,6 +19,13 @@
     python3
     spotify
     logseq
+    neofetch
+    bat
+    xclip
+    wl-clipboard
+    universal-ctags
+    tmux
+    ripgrep
   ];
 
   # manage bash
@@ -29,6 +36,7 @@
       eval "$(starship init bash)"
       export GIT_SSH=/usr/bin/ssh
       export EDITOR=nvim
+      export PATH="$PATH:$HOME/apps/bin"
     '';
     shellAliases = {
       # home-manager
@@ -48,8 +56,27 @@
       gb = "git branch";
       gswc = "git switch -c";
       gd = "git diff";
+      gwt = "git worktree";
+      gwta = "git worktree add";
+      # docker
+      d = "docker";
+      db = "docker build";
+      # docker compose
+      dc = "docker-compose";
+      dcu = "docker-compose up";
+      dcd = "docker-compose down";
+      dcb = "docker-compose build";
     };
   };
+  
+  # git config
+  programs.git = {
+    enable = true;
+    userName = "Pranav Kesavarapu";
+    userEmail = "pranavkesavarapu@gmail.com";
+    extraConfig.diff.tool = "nvimdiff";
+  };
+
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
