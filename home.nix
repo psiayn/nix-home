@@ -4,21 +4,16 @@
   # targets.genericLinux.enable = true;
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
-  home.username = "psiayn";
-  home.homeDirectory = "/home/psiayn";
+  home.username = "vader";
+  home.homeDirectory = "/home/vader";
   # allow unfree
   nixpkgs.config.allowUnfree = true;
 
   # packages
   home.packages = with pkgs; [
     htop
-    sublime4
-    starship
     git
     neovim
-    python3
-    spotify
-    logseq
     neofetch
     bat
     xclip
@@ -26,24 +21,35 @@
     universal-ctags
     tmux
     ripgrep
+    starship
+    clang
+    nodejs
+    perf-tools
+    openjdk
+    direnv
+    nyxt
   ];
-
+  services.lorri.enable = true;
   # manage bash
   programs.bash = {
     enable = true;
     initExtra = ''
-      . /home/psiayn/.nix-profile/etc/profile.d/nix.sh
+      . $HOME/.nix-profile/etc/profile.d/nix.sh
       eval "$(starship init bash)"
       export GIT_SSH=/usr/bin/ssh
       export EDITOR=nvim
-      export PATH="$PATH:$HOME/apps/bin"
+      export PATH="$PATH:$HOME/.rvm/bin:$HOME/.cargo/bin:$HOME/.local/bin"
+      export PATH="$PATH:$HOME/.npm-packages/bin"
+      export NODE_PATH="$HOME/.npm-packages/lib/node_modules"
+      . $HOME/.rvm/scripts/rvm
+      eval "$(direnv hook bash)"
     '';
     shellAliases = {
       # home-manager
       hm = "home-manager";
       hms = "home-manager switch";
       hmsb = "home-manager switch -b backup";
-      ehmc = "nvim ~/.config/nixpkgs/home.nix";
+      ehmc = "emacsclient -c ~/.config/nixpkgs/home.nix";
       # git aliases
       g = "git config";
       gst = "git status";
@@ -66,6 +72,11 @@
       dcu = "docker-compose up";
       dcd = "docker-compose down";
       dcb = "docker-compose build";
+      # normal shell utils
+      cat = "bat";
+      ls = "ls --color=auto";
+      ec = "emacsclient";
+      tmux = "tmux -u";
     };
   };
   
@@ -76,8 +87,12 @@
     userEmail = "pranavkesavarapu@gmail.com";
     extraConfig.diff.tool = "nvimdiff";
   };
-
-
+  xdg = {
+    enable = true;
+    mime.enable = true;
+  };
+  targets.genericLinux.enable = true;
+ 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
   # when a new Home Manager release introduces backwards
