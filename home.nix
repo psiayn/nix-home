@@ -4,8 +4,8 @@
   # targets.genericLinux.enable = true;
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
-  home.username = "vader";
-  home.homeDirectory = "/home/vader";
+  home.username = "psiayn";
+  home.homeDirectory = "/home/psiayn";
   # allow unfree
   nixpkgs.config.allowUnfree = true;
 
@@ -13,8 +13,8 @@
   home.packages = with pkgs; [
     htop
     git
-    neovim
     neofetch
+    neovim
     bat
     xclip
     wl-clipboard
@@ -27,7 +27,6 @@
     perf-tools
     openjdk
     direnv
-    nyxt
   ];
   services.lorri.enable = true;
   # manage bash
@@ -35,25 +34,27 @@
     enable = true;
     initExtra = ''
       . $HOME/.nix-profile/etc/profile.d/nix.sh
-      eval "$(starship init bash)"
       export GIT_SSH=/usr/bin/ssh
       export EDITOR=nvim
-      export PATH="$PATH:$HOME/.rvm/bin:$HOME/.cargo/bin:$HOME/.local/bin"
-      export PATH="$PATH:$HOME/.npm-packages/bin"
-      export NODE_PATH="$HOME/.npm-packages/lib/node_modules"
-      . $HOME/.rvm/scripts/rvm
+      export PATH="$PATH:$HOME/.cargo/bin:$HOME/.local/bin:$HOME/go/bin"
       eval "$(direnv hook bash)"
+      parse_git_branch() {
+                   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+      }
+
+      PS1='\033[1;33m(\t)\033[m \033[1;36m[ \u |\033[m \033[1;32m\W\033[m \033[1;36m]\033[m $(parse_git_branch)\n> '
     '';
     shellAliases = {
       # home-manager
       hm = "home-manager";
       hms = "home-manager switch";
       hmsb = "home-manager switch -b backup";
-      ehmc = "emacsclient -c ~/.config/nixpkgs/home.nix";
+      ehmc = "nvim ~/.config/nixpkgs/home.nix";
       # git aliases
       g = "git config";
       gst = "git status";
       gc = "git commit";
+      gcl = "git clone";
       ga = "git add";
       gp = "git push";
       gl = "git pull";
@@ -75,7 +76,7 @@
       # normal shell utils
       cat = "bat";
       ls = "ls --color=auto";
-      ec = "emacsclient";
+      em = "emacsclient -t";
       tmux = "tmux -u";
     };
   };
@@ -87,12 +88,6 @@
     userEmail = "pranavkesavarapu@gmail.com";
     extraConfig.diff.tool = "nvimdiff";
   };
-  xdg = {
-    enable = true;
-    mime.enable = true;
-  };
-  targets.genericLinux.enable = true;
- 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
   # when a new Home Manager release introduces backwards
